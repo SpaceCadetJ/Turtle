@@ -1,0 +1,76 @@
+import java.util.ArrayList;
+
+public class Model 
+{
+
+     private ArrayList<Wall> walls; // List to store walls
+     private int destX, destY;
+
+    public Model() {
+        walls = new ArrayList<>(); // Initialize the list of walls
+    }
+
+    // Method to add a wall to the list
+    public void addWall(Wall wall) {
+        walls.add(wall);
+    }
+
+    // Method to remove a wall from the list
+    public void removeWall(Wall wall) {
+        walls.remove(wall);
+    }
+
+    // Method to remove a wall based on its position
+    public void removeWallAt(int x, int y) {
+        walls.removeIf(wall -> x >= wall.getX() && x <= wall.getX() + wall.getW() &&
+                               y >= wall.getY() && y <= wall.getY() + wall.getH());
+    }
+
+    // Method to get the list of walls
+    public ArrayList<Wall> getWalls() {
+        return walls;
+    }
+
+    // Method to clear all walls
+    public void clearWalls() {
+        walls.clear();
+    }
+
+    public void setDestination(int x, int y) {
+        this.destX = x;
+        this.destY = y;
+        
+    }
+
+    public void removeWallIfClicked(int clickX, int clickY) {
+        walls.removeIf(wall -> wall.isClicked(clickX, clickY));
+    }
+
+
+    
+    /*private int turtleX;
+    private int turtleY; 
+    private int destX;
+    private int destY; */
+
+    /*public void update() {
+        if(this.turtleX < this.destX)
+			this.turtleX += Math.min(4, this.destX - this.turtleX);
+		else if(this.turtleX > this.destX)
+			this.turtleX -= Math.min(4, this.turtleX - this.destX);
+		if(this.turtleY < this.destY)
+			this.turtleY +=Math.min(4, this.destY - this.turtleY);
+		else if(this.turtleY > this.destY)
+			this.turtleY -= Math.min(4, this.turtleY - this.destY);
+    }
+
+    public void setDestination(int x, int y) {
+        this.destX = x;
+        this.destY = y;
+    }
+
+    public int getTurtleX() { return turtleX; }
+    public int getTurtleY() { return turtleY; }
+    */
+
+}
