@@ -5,13 +5,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
-public class Controller implements ActionListener, MouseListener, KeyListener
+public class Controller implements  MouseListener, KeyListener
 {
 	private View view;
 	private Model model;
 
 	private boolean editMode = false;
-  private boolean addingWalls = true;
+    private boolean addingWalls = true;
+	
+
+	//private boolean keyLeft;
+	//private boolean keyRight;
+	//private boolean keyUp;
+	//private boolean keyDown;
 
 
 	public Controller(Model m)
@@ -28,28 +34,16 @@ public class Controller implements ActionListener, MouseListener, KeyListener
 	public void mousePressed(MouseEvent e)
 	{
 		if (editMode) {
-			if (addingWalls && editMode) {
-				// Add a new wall at the click position
-				Wall wall = new Wall(e.getX(), e.getY(), 100, 100); // Example dimensions
-				model.addWall(wall);
-			} else {
-				// Remove a wall at the click position
-				model.removeWallAt(e.getX(), e.getY());
-			}
-			view.repaint(); // Repaint to reflect changes
-		}
-
-		/*if (editMode) {
 			if (addingWalls) {
-				// Add a new wall
-				Wall wall = new Wall(e.getX(), e.getY(), 50, 50); // Example dimensions
+				
+				Wall wall = new Wall(e.getX(), e.getY(), 100, 100); 
 				model.addWall(wall);
 			} else {
-				// Remove a wall if clicked
+				
 				model.removeWallIfClicked(e.getX(), e.getY());
 			}
-			view.repaint(); // Repaint to update the view
-		}*/
+			view.repaint(); 
+		}
 
 	}
 
@@ -62,9 +56,11 @@ public class Controller implements ActionListener, MouseListener, KeyListener
 
 	public void keyPressed(KeyEvent e)
 	{
+		
+		final int SCROLL_AMOUNT = 10;
 		switch(e.getKeyCode())
-		{ 
-
+		{
+		
 			case KeyEvent.VK_Q:
 			if (e.getKeyChar() == 'q' || e.getKeyChar() == 'Q') 
 			{ 
@@ -72,13 +68,13 @@ public class Controller implements ActionListener, MouseListener, KeyListener
 			} 
 
             case KeyEvent.VK_ESCAPE: 
-			System.exit(0); break;// exit game
+			System.exit(0); break;
 
 			case KeyEvent.VK_E:
-            editMode = !editMode; // Toggle edit mode
+            editMode = !editMode; 
             if (editMode) 
 			{
-                addingWalls = true; // Default to adding walls when entering edit mode
+                addingWalls = true;
             }
             System.out.println("Edit mode: " + (editMode ? "ON" : "OFF"));
             break;
@@ -86,29 +82,44 @@ public class Controller implements ActionListener, MouseListener, KeyListener
         	case KeyEvent.VK_A:
             if (editMode) 
 			{
-                addingWalls = !addingWalls; // Toggle between adding and removing walls
+                addingWalls = !addingWalls; 
                 System.out.println("Adding Walls: " + addingWalls);
             }
             break;
 
+
         case KeyEvent.VK_C:
-            model.clearWalls(); // Clear all walls
-            view.repaint(); // Repaint the view to reflect the cleared walls
+            model.clearWalls(); 
+            view.repaint(); 
             System.out.println("Cleared all walls");
             break;
-			
-		}
 
+		case KeyEvent.VK_UP:
+			view.adjustScroll(-SCROLL_AMOUNT);
+			break;
+
+		case KeyEvent.VK_DOWN:
+			view.adjustScroll(SCROLL_AMOUNT);
+			break;
+			//repaint();
+			
+		}	
+
+		if (e.getKeyChar() == 's' || e.getKeyChar() == 'S') {
+			model.saveWalls();
+		} else if (e.getKeyChar() == 'l' || e.getKeyChar() == 'L') {
+			model.loadWalls();
+			view.repaint(); 
+		}
+		
 	}
+
 
 	public void keyReleased(KeyEvent e)
 	{
-		
 	}
 
 	public void keyTyped(KeyEvent e)
 	{
 	}
-
-
 }
