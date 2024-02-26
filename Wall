@@ -1,16 +1,10 @@
 public class Wall {
-    private int x; // X-coordinate of the wall's top-left corner
-    private int y; // Y-coordinate of the wall's top-left corner
-    private int w; // Width of the wall
-    private int h; // Height of the wall
+    private int x; 
+    private int y; 
+    private int w; 
+    private int h; 
 
-    /**
-     * Constructor to initialize the wall with its position and dimensions.
-     * @param x X-coordinate of the wall's top-left corner.
-     * @param y Y-coordinate of the wall's top-left corner.
-     * @param w Width of the wall.
-     * @param h Height of the wall.
-     */
+  
     public Wall(int x, int y, int w, int h) {
         this.x = x;
         this.y = y;
@@ -60,5 +54,31 @@ public class Wall {
     // Setter for the height of the wall
     public void setH(int h) {
         this.h = h;
+    }
+
+
+    public Json toJson() {
+        Json wallJson = Json.newObject();
+        wallJson.add("x", this.x);
+        wallJson.add("y", this.y);
+        wallJson.add("width", this.w);
+        wallJson.add("height", this.h);
+        return wallJson;
+    }
+
+    public Wall(Json json) {
+        this.x = (int) json.getLong("x");
+        this.y = (int) json.getLong("y");
+        this.w = (int) json.getLong("w");
+        this.h = (int) json.getLong("h");
+    }
+    
+    public Json marshal() {
+        Json obj = Json.newObject();
+        obj.add("x", this.x);
+        obj.add("y", this.y);
+        obj.add("w", this.w);
+        obj.add("h", this.h);
+        return obj;
     }
 }
