@@ -29,8 +29,6 @@ public class Game extends JFrame
     {
         while(true)
         {
-            //controller.update();
-            //model.update();
             view.repaint(); 
             Toolkit.getDefaultToolkit().sync(); 
 
