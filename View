@@ -10,71 +10,45 @@ import java.util.ArrayList;
 
 public class View extends JPanel
 {
-	//private JButton b1;
-
-	//private BufferedImage turtleImage;
 	private BufferedImage wallImage;
-
+	private int scrollPosY = 0;
 	private Model model;
+
 	
-
-
 	public View(Controller c, Model m, Game g)
 	{
 		model = m;
 		this.addMouseListener(c);
 
 		try {
+            //this.wallImage = ImageIO.read(new File("C:\\Users\\Jay\\OneDrive\\Desktop\\Paradigms\\Assignment 3\\working on the scroll\\wall.png"));
+			this.wallImage = ImageIO.read(new File("wall.png"));
 
-            // Load the wall image (replace the path with the correct one for your project setup)
-            this.wallImage = ImageIO.read(new File("C:\\Users\\Jay\\OneDrive\\Desktop\\Paradigms\\Assignment 3\\wall.png"));
         } catch (IOException e) {
             e.printStackTrace(System.err);
             System.exit(1);
         }
 
 		
+	}
 
-		//b1 = new JButton("Go away!");
-		//b1.addActionListener(c);
-		//this.add(b1);
-		//c.setView(this);
-		//model = m;
-		//this.addMouseListener(c);
-
-		/*try
-		{
-			this.turtleImage = ImageIO.read(new File("C:\\Users\\Jay\\OneDrive\\Desktop\\Paradigms\\Assignment2\\Assignment2 (step 2)\\turtle.png"));
-			//this.turtleImage = ImageIO.read(new File("turtle.png"));
-
-		} catch (IOException e)
-		{
-			e.printStackTrace(System.err);
-			System.exit(1);
-		}*/
+	public void adjustScroll(int amount) {
+		scrollPosY += amount;
+		repaint();  
 	}
 
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);//just added
+		super.paintComponent(g);
         g.setColor(new Color(128, 255, 255));
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
-
-		// Draw all the walls
-        ArrayList<Wall> walls = model.getWalls(); // Assume Model has a getWalls() method returning ArrayList<Wall>
+        ArrayList<Wall> walls = model.getWalls(); 
         for (Wall wall : walls) {
 			System.out.println("Wall at (" + wall.getX() + ", " + wall.getY() + 
 			") with size (" + wall.getW() + "x" + wall.getH() + ")");
-            g.drawImage(this.wallImage, wall.getX(), wall.getY(), wall.getW(), wall.getH(), null);
+            //g.drawImage(this.wallImage, wall.getX(), wall.getY(), wall.getW(), wall.getH(), null);
+			g.drawImage(wallImage, wall.getX(), wall.getY() - scrollPosY, wall.getW(), wall.getH(), null);
         }
-
 		
-
-		//g.drawImage(this.turtleImage, model.getTurtleX(), model.getTurtleY(), null);
     }
 
-	/*void removeButton()
-	{
-		this.remove(b1);
-		this.repaint();
-	}*/
 }
